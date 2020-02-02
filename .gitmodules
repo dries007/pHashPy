@@ -1,0 +1,3 @@
+[submodule "pHash"]
+	path = pHash
+	url = git@github.com:aetilius/pHash.git
