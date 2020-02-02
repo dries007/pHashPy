@@ -1,6 +1,6 @@
 # pHashPy
 
-**Python bindings for the [pHash](https://github.com/aetilius/pHash) (perceptual hashing) library.
+**Python bindings for the [pHash](https://github.com/aetilius/pHash) (perceptual hashing) library.**
 
 Copyright (c) Dries007 2020. \
 Licensed under [GPLv3](COPYING) (or later), as is pHash itself.
