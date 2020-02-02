@@ -66,5 +66,8 @@ setup(
         "console_scripts": [
             "pHashPy = pHashPy.__main__:main"
         ]
+    },
+    package_data={
+        "": ["*.so"]
     }
 )

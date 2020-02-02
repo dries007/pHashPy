@@ -26,7 +26,8 @@ def callback(inp, x):
     print(x, inp)
 
 
-def main(args):
+def main():
+    args = parser.parse_args()
     f = functions[args.mode]
     error = functools.partial(print, file=sys.stderr)
 
@@ -43,4 +44,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(parser.parse_args())
+    main()
