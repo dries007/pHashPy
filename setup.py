@@ -9,6 +9,16 @@ with open(os.path.join(here, "README.md")) as f:
     long_description = f.read()
 
 
+def get_cmake():
+    for exe in ["cmake", "cmake28"]:
+        try:
+            subprocess.check_output([exe, "--version"])
+            return exe
+        except OSError:
+            pass
+    raise RuntimeError("No cmake version found.")
+
+
 class CMakeExtension(Extension):
     def __init__(self, name):
         # don't invoke the original build_ext for this special extension
@@ -23,15 +33,10 @@ class CMakeBuild(build_ext):
         super().run()
 
     def build_cmake(self, ext):
-        try:
-            subprocess.check_output(["cmake", "--version"])
-        except OSError:
-            raise RuntimeError("Cannot find CMake executable")
-
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
 
-        subprocess.check_call(["cmake", os.path.join(here, ext.name), "-DCMAKE_BUILD_TYPE=Release",
+        subprocess.check_call([get_cmake(), os.path.join(here, ext.name), "-DCMAKE_BUILD_TYPE=Release",
                                "-DWITH_VIDEO_HASH=1", "-DWITH_AUDIO_HASH=1"], cwd=self.build_temp)
 
         subprocess.check_call(["make", "-j"], cwd=self.build_temp)
