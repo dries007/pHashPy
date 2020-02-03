@@ -44,7 +44,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name="pHashPy",
-    version="0.0.2",
+    version="0.1.0",
     author="Dries007",
     author_email="admin@dries007.net",
     description="Python bindings for the pHash (perceptual hashing) library.",
