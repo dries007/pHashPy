@@ -31,7 +31,7 @@ jobs:
         with:
           python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38'
           build-requirements: 'setuptools cython cmake'
-          system-packages: 'cmake'
+          system-packages: 'cmake28'
       - name: Build and publish
         env:
           TWINE_USERNAME: __token__
