@@ -26,10 +26,11 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Build manylinux Python wheels
-        uses: RalfG/python-wheels-manylinux-build@v0.1
+        uses: dries007/python-wheels-manylinux-build@v0.1.1
         with:
           python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38'
           build-requirements: 'setuptools cython cmake'
+          system-packages: 'cmake'
       - name: Build and publish
         env:
           TWINE_USERNAME: __token__
