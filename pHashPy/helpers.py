@@ -22,11 +22,6 @@ def init():
     :return:
     """
     import cppyy
-    cppyy.include('pHash.h')
-    import cppyy
-    cppyy.include('pHash.h')
-    matches = glob.glob(os.path.join(os.path.dirname(__file__), '../pHash.*'))
-    if matches:
-        cppyy.load_library(matches[0])
-    else:
-        cppyy.load_library('pHash')
+    site_packages = os.path.split(os.path.dirname(__file__))[0]
+    cppyy.include(os.path.join(site_packages, 'pHash.h'))
+    cppyy.load_library(os.path.join(site_packages, 'libpHash.so'))

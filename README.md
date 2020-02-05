@@ -40,3 +40,33 @@ For more info on pHash:
 - https://www.phash.org/
 - https://www.phash.org/docs/design.html (Theory.)
 - https://www.phash.org/docs/howto.html (Help for developers, archived as [DevelopmentGuide.md](./DevelopmentGuide.md).)
+
+## Testing build manually
+
+Using CentOS 7 (with docker container `quay.io/pypa/manylinux2014_x86_64`):
+
+```bash
+cd
+
+yum install -y cmake3 libpng-devel libjpeg-turbo-devel libsamplerate-devel libsndfile-devel libtiff-devel libvdpau-devel libvorbis-devel
+yum install -y epel-release
+
+rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
+rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+yum install -y ffmpeg-devel
+
+git clone https://github.com/dries007/pHashPy.git
+cd pHashPy
+git submodule init
+git submodule update
+
+cd pHash
+
+echo "include_directories(/usr/include/ffmpeg)" >> CMakeLists.txt
+sed -i s/SHARED/STATIC/g CMakeLists.txt
+
+mkdir build
+cd build
+cmake3 .. -DCMAKE_BUILD_TYPE=Release -DWITH_VIDEO_HASH=1 -DWITH_AUDIO_HASH=1
+make -j
+```
