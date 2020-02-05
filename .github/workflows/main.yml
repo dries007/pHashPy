@@ -1,6 +1,9 @@
 name: Upload Python Package
 
 on:
+  push:
+    branches:
+      - master
   release:
     types: [created]
 
@@ -23,10 +26,22 @@ jobs:
           pip install flake8
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Python wheels manylinux2014 build
+        uses: dries007/python-wheels-manylinux-build@manylinux2014
+        with:
+          python_versions: cp36-cp36m cp37-cp37m cp38-cp38
+          build_requirements: setuptools cython
+          manylinux_image: manylinux2014_x86_64
+          pre_buid: |
+            yum install -y cmake3 libpng-devel libjpeg-turbo-devel libsamplerate-devel libsndfile-devel libtiff-devel libvdpau-devel libvorbis-devel
+            yum install -y epel-release
+            rpm -v --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
+            rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+            yum install -y ffmpeg-devel
       - name: Build and publish
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
         run: |
           python setup.py sdist
-          twine upload dist/*
+          twine upload dist/* wheelhouse/*
