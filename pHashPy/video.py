@@ -35,7 +35,7 @@ def video_hash_dist(a: bytes, b: bytes, threshold=21) -> float:
     """
     ptr = ctypes.POINTER(ctypes.c_uint64)
     len_a = (len(a)//8)
-    len_b = (len(a)//8)
+    len_b = (len(b)//8)
     a = ctypes.cast((ctypes.c_uint64 * len_a).from_buffer_copy(a), ptr)
     b = ctypes.cast((ctypes.c_uint64 * len_b).from_buffer_copy(b), ptr)
     return cppyy.gbl.ph_dct_videohash_dist(a, len_a, b, len_b, threshold)
